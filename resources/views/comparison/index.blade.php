@@ -16,9 +16,171 @@
         margin-bottom: 6px;
     }
 
+    .comparison-stats-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        width: 100%;
+        margin-bottom: 24px;
+    }
+
+    .income-savings-card {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+        padding: 20px;
+        border-radius: var(--radius-sm);
+        gap: 12px;
+    }
+
+    .income-savings-item {
+        flex: 1;
+        min-width: 0;
+        overflow: hidden;
+    }
+
+    .income-savings-item p {
+        word-break: break-word;
+        overflow-wrap: break-word;
+        line-height: 1.3;
+    }
+
+    .income-savings-item p:last-child {
+        font-size: clamp(1rem, 2.5vw, 1.375rem);
+    }
+
+    .income-savings-item.center {
+        text-align: center;
+    }
+
+    .income-savings-item.right {
+        text-align: right;
+    }
+
+    .comparison-card {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .comparison-header {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .comparison-title {
+        word-break: break-word;
+        overflow-wrap: break-word;
+        flex: 1;
+        min-width: 0;
+    }
+
+    .comparison-badge {
+        flex-shrink: 0;
+        white-space: nowrap;
+    }
+
+    .comparison-values {
+        flex-wrap: wrap;
+        gap: 8px;
+        word-break: break-word;
+        overflow-wrap: break-word;
+    }
+
+    .comparison-values span {
+        word-break: break-word;
+        overflow-wrap: break-word;
+    }
+
     @media (max-width: 640px) {
         .month-grid {
             grid-template-columns: 1fr;
+        }
+
+        .comparison-stats-row {
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .income-savings-card {
+            padding: 12px;
+            gap: 6px;
+            margin-top: 16px;
+        }
+
+        .income-savings-item {
+            min-width: 0;
+            flex: 1 1 0;
+        }
+
+        .income-savings-item p {
+            font-size: 0.6875rem !important;
+            margin-bottom: 2px !important;
+            word-break: break-word !important;
+            overflow-wrap: break-word !important;
+            line-height: 1.3 !important;
+        }
+
+        .income-savings-item p:last-child {
+            font-size: clamp(0.75rem, 2.5vw, 1rem) !important;
+            font-weight: 800 !important;
+            line-height: 1.2 !important;
+            word-break: keep-all !important;
+        }
+
+        .comparison-stats-row .stat-card {
+            padding: 14px !important;
+        }
+
+        .comparison-stats-row .stat-value {
+            font-size: clamp(1rem, 3vw, 1.25rem) !important;
+            word-break: break-word !important;
+            overflow-wrap: break-word !important;
+            line-height: 1.2 !important;
+        }
+
+        .comparison-stats-row .stat-card {
+            overflow: hidden;
+        }
+
+        .comparison-card {
+            padding: 12px !important;
+            margin-bottom: 10px !important;
+        }
+
+        .comparison-header {
+            margin-bottom: 8px !important;
+        }
+
+        .comparison-title {
+            font-size: 0.875rem !important;
+        }
+
+        .comparison-badge {
+            padding: 4px 10px !important;
+            font-size: 0.75rem !important;
+        }
+
+        .comparison-values {
+            font-size: clamp(0.75rem, 2vw, 0.8125rem) !important;
+            gap: 4px !important;
+        }
+
+        .comparison-values span {
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .comparison-message {
+            margin-top: 6px !important;
+            font-size: 0.75rem !important;
+            word-break: break-word !important;
+            overflow-wrap: break-word !important;
+        }
+
+        .comparison-header {
+            align-items: flex-start !important;
         }
     }
 </style>
@@ -68,47 +230,65 @@
         </button>
     </div>
 
-    <div id="comparisonResults" style="display: none;">
-        <div class="stats-row" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); width: 100%;">
-            <div class="stat-card expense">
+    <div id="comparisonResults" style="display: none; width: 100%; max-width: 100%;">
+        <div class="comparison-stats-row">
+            <div class="stat-card expense" style="width: 100%;">
                 <p class="stat-label" id="month1Label">Month 1</p>
                 <p class="stat-value expense" id="month1Expense">₹0</p>
                 <p style="font-size: 0.8125rem; color: var(--text-muted);">Total Expenses</p>
             </div>
-            <div class="stat-card expense">
+            <div class="stat-card expense" style="width: 100%;">
                 <p class="stat-label" id="month2Label">Month 2</p>
                 <p class="stat-value expense" id="month2Expense">₹0</p>
                 <p style="font-size: 0.8125rem; color: var(--text-muted);">Total Expenses</p>
             </div>
-            <div class="stat-card balance">
+            <div class="stat-card balance" style="width: 100%;">
                 <p class="stat-label">Difference</p>
                 <p class="stat-value" id="expenseDifference">₹0</p>
                 <p id="expenseMessage" style="font-size: 0.8125rem;"></p>
             </div>
         </div>
 
-        <div class="grid-equal">
-            <div class="card">
+        <div class="grid-equal" style="width: 100%; max-width: 100%;">
+            <div class="card" style="width: 100%; max-width: 100%;">
                 <h3 class="card-title">Income</h3>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding: 20px; background: var(--success-light); border-radius: var(--radius-sm);">
-                    <div><p style="font-size: 0.75rem; color: var(--success);" id="month1LabelIncome">Month 1</p><p style="font-size: 1.375rem; font-weight: 800; color: var(--success);" id="month1Income">₹0</p></div>
-                    <div style="text-align: center;"><p style="font-size: 0.75rem; color: var(--text-muted);">Change</p><p style="font-size: 1.375rem; font-weight: 800;" id="incomeDifference">₹0</p></div>
-                    <div style="text-align: right;"><p style="font-size: 0.75rem; color: var(--success);" id="month2LabelIncome">Month 2</p><p style="font-size: 1.375rem; font-weight: 800; color: var(--success);" id="month2Income">₹0</p></div>
+                <div class="income-savings-card" style="background: var(--success-bg);">
+                    <div class="income-savings-item">
+                        <p style="font-size: 0.75rem; color: var(--success); margin-bottom: 4px;" id="month1LabelIncome">Month 1</p>
+                        <p style="font-size: 1.375rem; font-weight: 800; color: var(--success);" id="month1Income">₹0</p>
+                    </div>
+                    <div class="income-savings-item center">
+                        <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 4px;">Change</p>
+                        <p style="font-size: 1.375rem; font-weight: 800;" id="incomeDifference">₹0</p>
+                    </div>
+                    <div class="income-savings-item right">
+                        <p style="font-size: 0.75rem; color: var(--success); margin-bottom: 4px;" id="month2LabelIncome">Month 2</p>
+                        <p style="font-size: 1.375rem; font-weight: 800; color: var(--success);" id="month2Income">₹0</p>
+                    </div>
                 </div>
             </div>
-            <div class="card">
+            <div class="card" style="width: 100%; max-width: 100%;">
                 <h3 class="card-title">Savings</h3>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding: 20px; background: #ede9fe; border-radius: var(--radius-sm);">
-                    <div><p style="font-size: 0.75rem; color: #8b5cf6;" id="month1LabelSavings">Month 1</p><p style="font-size: 1.375rem; font-weight: 800;" id="month1Savings">₹0</p></div>
-                    <div style="text-align: center;"><p style="font-size: 0.75rem; color: var(--text-muted);">Change</p><p style="font-size: 1.375rem; font-weight: 800;" id="savingsDifference">₹0</p></div>
-                    <div style="text-align: right;"><p style="font-size: 0.75rem; color: #8b5cf6;" id="month2LabelSavings">Month 2</p><p style="font-size: 1.375rem; font-weight: 800;" id="month2Savings">₹0</p></div>
+                <div class="income-savings-card" style="background: #ede9fe;">
+                    <div class="income-savings-item">
+                        <p style="font-size: 0.75rem; color: #8b5cf6; margin-bottom: 4px;" id="month1LabelSavings">Month 1</p>
+                        <p style="font-size: 1.375rem; font-weight: 800;" id="month1Savings">₹0</p>
+                    </div>
+                    <div class="income-savings-item center">
+                        <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 4px;">Change</p>
+                        <p style="font-size: 1.375rem; font-weight: 800;" id="savingsDifference">₹0</p>
+                    </div>
+                    <div class="income-savings-item right">
+                        <p style="font-size: 0.75rem; color: #8b5cf6; margin-bottom: 4px;" id="month2LabelSavings">Month 2</p>
+                        <p style="font-size: 1.375rem; font-weight: 800;" id="month2Savings">₹0</p>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" style="width: 100%; max-width: 100%;">
             <h3 class="card-title">Category Breakdown</h3>
-            <div id="categoryList" style="margin-top: 20px;"></div>
+            <div id="categoryList" style="margin-top: 20px; width: 100%;"></div>
         </div>
     </div>
 

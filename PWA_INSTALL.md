@@ -57,3 +57,5 @@ If the install prompt doesn't appear:
 
 Enjoy using Spendly as a native app! 🚀
 
+
+

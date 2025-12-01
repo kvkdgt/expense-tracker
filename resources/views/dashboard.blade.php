@@ -44,6 +44,32 @@
 </div>
 
 <div class="main-content">
+    <!-- Daily Cards -->
+    <div class="daily-cards-row">
+        <div class="daily-card daily-income">
+            <div class="daily-card-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                </svg>
+            </div>
+            <div class="daily-card-content">
+                <p class="daily-card-label">Today's Income</p>
+                <p class="daily-card-value">₹{{ number_format($todayIncome, 0) }}</p>
+            </div>
+        </div>
+        <div class="daily-card daily-expense">
+            <div class="daily-card-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4" />
+                </svg>
+            </div>
+            <div class="daily-card-content">
+                <p class="daily-card-label">Today's Expense</p>
+                <p class="daily-card-value">₹{{ number_format($todayExpense, 0) }}</p>
+            </div>
+        </div>
+    </div>
+
     <!-- Stats -->
     <div class="stats-row">
         <div class="stat-card balance">

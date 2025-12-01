@@ -443,6 +443,78 @@
         .stat-change.positive { background: var(--success-bg); color: var(--success); }
         .stat-change.negative { background: var(--danger-bg); color: var(--danger); }
 
+        /* Daily Cards */
+        .daily-cards-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .daily-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .daily-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .daily-card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .daily-income .daily-card-icon {
+            background: var(--success-bg);
+            color: var(--success);
+        }
+
+        .daily-expense .daily-card-icon {
+            background: var(--danger-bg);
+            color: var(--danger);
+        }
+
+        .daily-card-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .daily-card-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .daily-card-value {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .daily-income .daily-card-value {
+            color: var(--success);
+        }
+
+        .daily-expense .daily-card-value {
+            color: var(--danger);
+        }
+
         /* Grid */
         .grid-2 {
             display: grid;
@@ -954,6 +1026,30 @@
                 grid-template-columns: 1fr 1fr;
                 gap: 12px;
                 width: 100%;
+            }
+
+            .daily-cards-row {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+                width: 100%;
+                margin-bottom: 24px;
+            }
+
+            .daily-card {
+                padding: 14px;
+            }
+
+            .daily-card-icon {
+                width: 36px;
+                height: 36px;
+            }
+
+            .daily-card-value {
+                font-size: 1.125rem;
+            }
+
+            .daily-card-label {
+                font-size: 0.6875rem;
             }
 
             .grid-2, .grid-equal {

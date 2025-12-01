@@ -38,6 +38,18 @@ class DashboardController extends Controller
             ->expense()
             ->sum('amount');
 
+        // Today's stats
+        $today = Carbon::today();
+        $todayIncome = Transaction::forUser($user->id)
+            ->whereDate('transaction_date', $today)
+            ->income()
+            ->sum('amount');
+
+        $todayExpense = Transaction::forUser($user->id)
+            ->whereDate('transaction_date', $today)
+            ->expense()
+            ->sum('amount');
+
         // Daily spending for chart (last 30 days)
         $dailyData = Transaction::forUser($user->id)
             ->where('transaction_date', '>=', Carbon::now()->subDays(30))
@@ -74,6 +86,8 @@ class DashboardController extends Controller
             'currentMonthExpense',
             'lastMonthIncome',
             'lastMonthExpense',
+            'todayIncome',
+            'todayExpense',
             'dailyData',
             'categoryExpenses',
             'recentTransactions',
@@ -100,4 +114,6 @@ class DashboardController extends Controller
         return response()->json($data);
     }
 }
+
+
 

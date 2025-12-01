@@ -24,22 +24,33 @@ class SendSummaryEmails extends Command
             return Command::FAILURE;
         }
 
-        User::chunk(100, function ($users) use ($service, $period) {
+        $sentCount = 0;
+        $skippedCount = 0;
+
+        User::chunk(100, function ($users) use ($service, $period, &$sentCount, &$skippedCount) {
             foreach ($users as $user) {
-                $summary = $service->build($user, $period);
+                try {
+                    $summary = $service->build($user, $period);
 
-                if ($summary['transactions_count'] === 0) {
-                    continue;
+                    if ($summary['transactions_count'] === 0) {
+                        $skippedCount++;
+                        continue;
+                    }
+
+                    Mail::to($user->email)->send(new SummaryReportMail($period, $summary, $user));
+                    $sentCount++;
+                } catch (\Exception $e) {
+                    $this->error("Failed to send email to {$user->email}: " . $e->getMessage());
                 }
-
-                Mail::to($user->email)->queue(new SummaryReportMail($period, $summary));
             }
         });
 
-        $this->info("{$period} summary emails queued successfully.");
+        $this->info("{$period} summary emails sent: {$sentCount}, skipped: {$skippedCount}.");
 
         return Command::SUCCESS;
     }
 }
+
+
 
 

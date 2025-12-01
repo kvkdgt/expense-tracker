@@ -37,6 +37,23 @@ class SummaryReportService
                 ];
             });
 
+        // Get all transactions for the statement
+        $transactions = Transaction::forUser($user->id)
+            ->with('category')
+            ->whereBetween('transactions.transaction_date', [$start, $end])
+            ->orderByDesc('transaction_date')
+            ->orderByDesc('created_at')
+            ->get()
+            ->map(function ($transaction) {
+                return [
+                    'date' => $transaction->transaction_date->format('d M Y'),
+                    'category' => $transaction->category->name,
+                    'type' => $transaction->type,
+                    'amount' => (float) $transaction->amount,
+                    'note' => $transaction->note,
+                ];
+            });
+
         return [
             'period' => $period,
             'period_label' => $label,
@@ -47,6 +64,7 @@ class SummaryReportService
             'net' => (float) ($incomeTotal - $expenseTotal),
             'transactions_count' => $transactionCount,
             'top_categories' => $topCategories,
+            'transactions' => $transactions,
         ];
     }
 
@@ -56,19 +74,19 @@ class SummaryReportService
 
         return match ($period) {
             'daily' => [
-                $now->copy()->startOfDay(),
-                $now->copy()->endOfDay(),
-                'Today · ' . $now->format('M d, Y'),
+                $now->copy()->subDay()->startOfDay(),
+                $now->copy()->subDay()->endOfDay(),
+                'Yesterday · ' . $now->copy()->subDay()->format('M d, Y'),
             ],
             'weekly' => [
-                $now->copy()->startOfWeek(),
-                $now->copy()->endOfWeek(),
-                'This Week · ' . $now->copy()->startOfWeek()->format('M d') . ' - ' . $now->copy()->endOfWeek()->format('M d, Y'),
+                $now->copy()->subWeek()->startOfWeek(),
+                $now->copy()->subWeek()->endOfWeek(),
+                'Last Week · ' . $now->copy()->subWeek()->startOfWeek()->format('M d') . ' - ' . $now->copy()->subWeek()->endOfWeek()->format('M d, Y'),
             ],
             'monthly' => [
-                $now->copy()->startOfMonth(),
-                $now->copy()->endOfMonth(),
-                $now->format('F Y'),
+                $now->copy()->subMonth()->startOfMonth(),
+                $now->copy()->subMonth()->endOfMonth(),
+                $now->copy()->subMonth()->format('F Y'),
             ],
             default => throw new \InvalidArgumentException('Invalid period supplied.'),
         };
