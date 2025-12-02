@@ -139,6 +139,62 @@
         </div>
     </div>
 
+    <!-- Statements Section -->
+    <div class="card mb-6">
+        <h3 class="card-title" style="margin-bottom: 20px;">Download Statements</h3>
+        
+        <div class="settings-item" onclick="downloadStatement('daily')" style="cursor: pointer;">
+            <div class="settings-item-content">
+                <div class="settings-item-icon" style="background: var(--accent-bg);">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                    </svg>
+                </div>
+                <div class="settings-item-details">
+                    <p class="settings-item-title">Daily Statement</p>
+                    <p class="settings-item-subtitle">Download yesterday's transaction statement (PDF)</p>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color: var(--text-muted);">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                </svg>
+            </div>
+        </div>
+
+        <div class="settings-item" onclick="downloadStatement('weekly')" style="cursor: pointer;">
+            <div class="settings-item-content">
+                <div class="settings-item-icon" style="background: var(--accent-bg);">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                    </svg>
+                </div>
+                <div class="settings-item-details">
+                    <p class="settings-item-title">Weekly Statement</p>
+                    <p class="settings-item-subtitle">Download last week's transaction statement (PDF)</p>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color: var(--text-muted);">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                </svg>
+            </div>
+        </div>
+
+        <div class="settings-item" onclick="downloadStatement('monthly')" style="cursor: pointer;">
+            <div class="settings-item-content">
+                <div class="settings-item-icon" style="background: var(--accent-bg);">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                    </svg>
+                </div>
+                <div class="settings-item-details">
+                    <p class="settings-item-title">Monthly Statement</p>
+                    <p class="settings-item-subtitle">Download last month's transaction statement (PDF)</p>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color: var(--text-muted);">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                </svg>
+            </div>
+        </div>
+    </div>
+
     <!-- Data & Privacy Section -->
     <div class="card mb-6">
         <h3 class="card-title" style="margin-bottom: 20px;">Data & Privacy</h3>
@@ -452,6 +508,10 @@
 
     function exportData() {
         window.location.href = '{{ route("transactions.export") }}';
+    }
+
+    function downloadStatement(period) {
+        window.location.href = `/statements/download/${period}`;
     }
 
     function deleteAccount() {

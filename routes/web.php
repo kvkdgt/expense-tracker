@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/transactions/{transaction}', [TransactionController::class, 'destroy'])->name('transactions.destroy');
     Route::get('/api/category-suggestions', [TransactionController::class, 'suggestions'])->name('categories.suggestions');
     Route::get('/transactions/export', [ExportController::class, 'exportTransactions'])->name('transactions.export');
+    Route::get('/statements/download/{period}', [ExportController::class, 'downloadStatement'])->name('statements.download');
     
     // Comparison
     Route::get('/comparison', [ComparisonController::class, 'index'])->name('comparison.index');

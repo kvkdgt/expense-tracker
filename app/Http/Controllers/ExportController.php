@@ -3,11 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
+use App\Services\SummaryReportService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ExportController extends Controller
 {
+    protected $summaryService;
+
+    public function __construct(SummaryReportService $summaryService)
+    {
+        $this->summaryService = $summaryService;
+    }
+
     public function exportTransactions(Request $request)
     {
         $user = Auth::user();
@@ -47,7 +56,28 @@ class ExportController extends Controller
 
         return response()->stream($callback, 200, $headers);
     }
+
+    public function downloadStatement(Request $request, string $period)
+    {
+        if (!in_array($period, ['daily', 'weekly', 'monthly'])) {
+            return redirect()->route('settings.index')->with('error', 'Invalid period specified.');
+        }
+
+        $user = Auth::user();
+        $summary = $this->summaryService->build($user, $period);
+
+        $pdf = Pdf::loadView('pdf.statement', [
+            'user' => $user,
+            'summary' => $summary,
+            'period' => $period,
+        ]);
+
+        $filename = 'Spendly_' . ucfirst($period) . '_Statement_' . now()->format('M_d_Y') . '.pdf';
+
+        return $pdf->download($filename);
+    }
 }
+
 
 
 
