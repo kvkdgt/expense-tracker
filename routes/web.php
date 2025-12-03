@@ -8,6 +8,7 @@ use App\Http\Controllers\ExportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminPasswordResetController;
@@ -48,6 +49,10 @@ Route::middleware('auth')->group(function () {
     // Comparison
     Route::get('/comparison', [ComparisonController::class, 'index'])->name('comparison.index');
     Route::post('/api/compare', [ComparisonController::class, 'compare'])->name('comparison.compare');
+    
+    // Reports
+    Route::get('/reports', [ReportsController::class, 'index'])->name('reports.index');
+    Route::post('/api/reports/data', [ReportsController::class, 'getData'])->name('reports.data');
     
     // Settings
     Route::get('/settings', [\App\Http\Controllers\SettingsController::class, 'index'])->name('settings.index');
